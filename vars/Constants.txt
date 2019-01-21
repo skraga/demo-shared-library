@@ -1,0 +1,1 @@
+Demonstrates an example of a shared constants storage.

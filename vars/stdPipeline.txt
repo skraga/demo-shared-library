@@ -1,0 +1,1 @@
+This stdPipeline is a unified pipeline for many small projects

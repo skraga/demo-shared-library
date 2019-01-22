@@ -39,7 +39,7 @@ def call(body) {
         }
         post {
             failure {
-                mail to: email, subject: 'Pipeline failed', body: "${env.BUILD_URL}"
+                mail to: "${email}", subject: 'Pipeline failed', body: "${env.BUILD_URL}"
             }
         }
     }

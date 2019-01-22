@@ -29,7 +29,7 @@ def call(Map args) {
 
             stage('deploy somewhere'){
                 steps {
-                    fakeDeploy args.address: args.targetServer, count: 10
+                    fakeDeploy address: args.targetServer, count: 10
                 }
             }
         }

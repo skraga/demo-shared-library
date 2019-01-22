@@ -1,10 +1,6 @@
 #!/usr/bin/env groovy
-def call(body) {
-    // evaluate the body block, and collect configuration into the object
-    def pipelineParams= [:]
-    body.resolveStrategy = Closure.DELEGATE_FIRST
-    body.delegate = pipelineParams
-    body()
+
+def call(Map args) {
 
     pipeline {
         agent any
@@ -12,7 +8,7 @@ def call(body) {
         stages {
             stage('checkout git') {
                 steps {
-                    git branch: branch, url: scmUrl
+                    git branch: args.branch, url: args.scmUrl
                 }
             }
 
@@ -33,8 +29,13 @@ def call(body) {
 
             stage('deploy somewhere'){
                 steps {
-                    fakeDeploy address: targetServer, count: 10
+                    fakeDeploy args.address: args.targetServer, count: 10
                 }
+            }
+        }
+        post {
+            failure {
+                mail to: args.email, subject: 'Pipeline failed', body: "${env.BUILD_URL}"
             }
         }
     }

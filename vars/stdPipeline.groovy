@@ -13,12 +13,16 @@ def call(Map args) {
             }
 
             stage('build') {
+                tools { maven 'apache-maven-3.6.0' }
+                agent { label 'master'}
                 steps {
-                    sh 'mvn clean package -DskipTests=true'
+                    sh 'mvn -B -DskipTests clean package'
                 }
             }
 
             stage ('test') {
+                tools { maven 'apache-maven-3.6.0' }
+                agent { label 'master'}
                 steps {
                     parallel (
                         "unit tests": { sh 'mvn test' },
@@ -35,7 +39,7 @@ def call(Map args) {
         }
         post {
             failure {
-                mail to: args.email, subject: 'Pipeline failed', body: "${env.BUILD_URL}"
+                echo "mail to: ${args.email}, subject: 'Pipeline failed', body: ${env.BUILD_URL}"
             }
         }
     }

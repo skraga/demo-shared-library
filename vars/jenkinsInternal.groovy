@@ -5,7 +5,7 @@ def setBuildDescription(String description){
 }
 
 @NonCPS
-def setJobDescription(description){
+def setJobDescription(String description){
     def jobNameTable = env.JOB_NAME.split('/')
     def it=Jenkins.instance
     for(name in jobNameTable){
